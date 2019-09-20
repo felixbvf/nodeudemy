@@ -21,8 +21,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended:true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.set('port', process.env.PORT || 3003);
 
-app.listen(3003, () => {
-    console.log('Server on port 3003');
+
+app.listen(app.get('port'), () => {
+    console.log('Server on port ' + app.get('port'));
     console.log(path.join(__dirname, 'public')); //probando path
 });
+/*app.listen(3003, () => {
+    console.log('Server on port 3003');
+    console.log(path.join(__dirname, 'public')); //probando path
+});*/
