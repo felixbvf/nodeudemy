@@ -3,8 +3,15 @@ import express from 'express';
 import morgan from 'morgan'; //middleware morgan permite ver las peticiones desde el navegador
 import cors from 'cors'; //middleware cors permite conexiones a nuestro servidor desde otras clientes
 import path from 'path'; //te da l direccion del proyecto
+import mongoose from 'mongoose';
 
-
+//conexion a mongodb
+mongoose.Promise = global.Promise;
+const dbUrl = 'mongodb://localhost:27017/dbsistema';
+mongoose.connect(dbUrl, { useCreateIndex:true,useUnifiedTopology: true, useNewUrlParser: true })
+    .then(mongoose => console.log('Conectado a la BD en el puerto 27017'))
+    .catch(err => console.log(err));
+    
 
 const app = express();
 app.use(morgan('dev'));  //modo dev morgan
