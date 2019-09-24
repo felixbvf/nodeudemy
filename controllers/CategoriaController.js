@@ -30,7 +30,14 @@ export default {
     },
     list: async (req,res,next) => {
         try {
-            const reg = await models.Categoria.find({});
+            let valor = req.query.valor;
+            const reg = await models.Categoria.find({});  //Busca toda la lista
+            //const reg = await models.Categoria.find({},{createdAt:0,descripcion:0});  //busca toda la lista pero no te muestra createdAt y descripcion
+            //const reg = await models.Categoria.find({},{nombre:1});  //Muestra solo el nombre
+            //const reg = await models.Categoria.find({},{createdAt:0}).sort({'nombre': -1});  //Ordenar por nombre  descendente
+            //const reg = await models.Categoria.find({},{createdAt:0}).sort({'nombre': 1});  //Ordenar por nombre  ascendente
+            //const reg = await models.Categoria.find({'nombre':new RegExp(valor, 'i')},{createdAt:0}).sort({'createdAt': -1});  //Busca por el valor del parametro en el campo nombre y Ordenar por createdAt descendente
+            //const reg = await models.Categoria.find({$or:[{'nombre':new RegExp(valor, 'i')},{'descripcion':new RegExp(valor, 'i')}]},{createdAt:0}).sort({'createdAt': -1});  //Busca por el valor del parametro en el campo nombre o descripcion y Ordenar por createdAt descendente
             res.status(200).json(reg);
 
         } catch (e) {
