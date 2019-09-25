@@ -51,7 +51,7 @@ export default {
     listClientes: async (req,res,next) => {
         try {
             let valor = req.query.valor;
-            const reg = await models.Usuario.find({$or:[{'nombre':new RegExp(valor, 'i')},{'email':new RegExp(valor, 'i')}],'tipo_persona':'Cliente'},{createdAt:0}).sort({'createdAt': -1}); 
+            const reg = await models.Persona.find({$or:[{'nombre':new RegExp(valor, 'i')},{'email':new RegExp(valor, 'i')}],'tipo_persona':'Cliente'},{createdAt:0}).sort({'createdAt': -1}); 
             res.status(200).json(reg);
 
         } catch (e) {
@@ -64,7 +64,7 @@ export default {
     listProveedores: async (req,res,next) => {
         try {
             let valor = req.query.valor;
-            const reg = await models.Usuario.find({$or:[{'nombre':new RegExp(valor, 'i')},{'email':new RegExp(valor, 'i')}],'tipo_persona':'Proveedor'},{createdAt:0}).sort({'createdAt': -1}); 
+            const reg = await models.Persona.find({$or:[{'nombre':new RegExp(valor, 'i')},{'email':new RegExp(valor, 'i')}],'tipo_persona':'Proveedor'},{createdAt:0}).sort({'createdAt': -1}); 
             res.status(200).json(reg);
 
         } catch (e) {
