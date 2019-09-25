@@ -4,13 +4,13 @@ import { model } from 'mongoose';
 async function aumentarStock(idarticulo,cantidad){
     let {stock} = await models.Articulo.findOne({_id:idarticulo});
     let nStock = parseInt(stock) + parseInt(cantidad);
-    const reg = await models.Articulo.findByIdAndUpdate({_id:idarticulo},{stock:nStock})
+    const reg = await models.Articulo.findByIdAndUpdate({_id:idarticulo},{stock:nStock});
 }
 
 async function disminuirStock(idarticulo,cantidad){
     let {stock} = await models.Articulo.findOne({_id:idarticulo});
     let nStock = parseInt(stock) - parseInt(cantidad);
-    const reg = await models.Articulo.findByIdAndUpdate({_id:idarticulo},{stock:nStock})
+    const reg = await models.Articulo.findByIdAndUpdate({_id:idarticulo},{stock:nStock});
 }
 
 export default {
