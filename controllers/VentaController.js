@@ -25,7 +25,7 @@ export default {
             res.status(200).json(reg);
         } catch (e) {
             res.status(500).send({
-                message: 'Ocurrio un error al crear'
+                message: 'Ocurrio un error al crear la venta'
             });
             next(e);
         }
