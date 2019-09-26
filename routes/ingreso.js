@@ -7,6 +7,7 @@ const router= routerx();
 router.post('/add',auth.verifyAlmacenero,ingresoController.add);
 router.get('/query',auth.verifyAlmacenero,ingresoController.query);
 router.get('/list',auth.verifyAlmacenero,ingresoController.list);
+router.get('/consultaFechas',auth.verifyUsuario,ingresoController.consultaFechas);
 router.get('/grafico12Meses',auth.verifyUsuario,ingresoController.grafico12Meses);
 router.put('/activate',auth.verifyAlmacenero,ingresoController.activate);
 router.put('/deactivate',auth.verifyAlmacenero,ingresoController.deactivate);
