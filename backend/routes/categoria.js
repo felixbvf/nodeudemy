@@ -12,8 +12,10 @@ router.get('/list',categoriaController.list);
 //router.put('/update',auth.verifyAlmacenero,categoriaController.update);
 router.put('/update',categoriaController.update);
 router.delete('/remove',auth.verifyAlmacenero,categoriaController.remove);
-router.put('/activate',auth.verifyAlmacenero,categoriaController.activate);
-router.put('/deactivate',auth.verifyAlmacenero,categoriaController.deactivate);
+//router.put('/activate',auth.verifyAlmacenero,categoriaController.activate);
+router.put('/activate',categoriaController.activate);
+//router.put('/deactivate',auth.verifyAlmacenero,categoriaController.deactivate);
+router.put('/deactivate',categoriaController.deactivate);
 
 
 export default router;

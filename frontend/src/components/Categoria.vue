@@ -50,6 +50,34 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+
+          <v-dialog v-model="adModal" max-width="200">
+            <v-card>
+              <v-card-title class="headline" v-if="adAccion==1">
+                Activar Item
+              </v-card-title>
+              <v-card-title class="headline" v-if="adAccion==2">
+                Desactivar Item
+              </v-card-title>
+              <v-card-text>
+                Estas a punto de <span v-if="adAccion==1">Activar</span>
+                <span v-if="adAccion==2">desactivar</span> el item {{adNombre}}
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn @click="activarDesactivarCerrar()" color="green darken-1" flat="flat">
+                  cancelar
+                </v-btn>
+                <v-btn v-if="adAccion==1" @click="activar()" color="orange darken-4" flat="flat">
+                    Activar
+                </v-btn>
+                 <v-btn v-if="adAccion==2" @click="desactivar()" color="orange darken-4" flat="flat">
+                    Desactivar
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
         </v-toolbar>
       </template>
 
@@ -61,12 +89,22 @@
         >
           edit
         </v-icon>
-        <v-icon
-          small
-          @click="deleteItem(item)"
-        >
-          delete
-        </v-icon>
+        <template v-if="item.estado">
+          <v-icon
+            small
+            @click="activarDesactivarMostrar(2,item)"
+          >
+            block
+          </v-icon>
+        </template>
+         <template v-else>
+          <v-icon
+            small
+            @click="activarDesactivarMostrar(1,item)"
+          >
+            check
+          </v-icon>
+        </template>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="listar">Resetear</v-btn>
@@ -93,7 +131,11 @@ data: () => ({
     nombre: '',
     descripcion: '',
     valida: 0,
-    validaMensage: []
+    validaMensage: [],
+    adModal: 0,   // Variables activar y desactivar
+    adAccion: 0,
+    adNombre: '',
+    adId: ''  //
 
   }),
 
@@ -151,7 +193,7 @@ data: () => ({
       if (this.validar()){
         return;
       }
-      console.log('ggggg' + this.editedIndex);
+     // console.log('ggggg' + this.editedIndex);
       if (this.editedIndex > -1){
                     //Código para editar
                     axios.put('categoria/update',{'_id':this._id,'nombre':this.nombre,'descripcion':this.descripcion})
@@ -191,9 +233,50 @@ data: () => ({
       
     },
 
-    deleteItem (item) {
-      const index = this.desserts.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+    activarDesactivarMostrar (accion,item) {
+      //console.log(accion);
+      this.adModal = 1;
+      this.adNombre = item.nombre;
+      this.adId = item._id;
+      if(accion == 1){
+        this.adAccion = 1;
+      } else if(accion==2){
+        this.adAccion = 2;
+      } else {
+        this.adModal=0;
+      }
+      //confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+    },
+    activarDesactivarCerrar(){
+      this.adModal=0;
+    },
+    activar(){
+      let me = this;
+      axios.put('categoria/activate',{'_id':this.adId})
+                    .then(function(response){
+                       me.adModal=0;
+                       me.adAccion=0;
+                       me.adNombre= '';
+                       me.adI='';
+                       me.listar();
+                    })
+                    .catch(function(error){
+                        console.log(error);
+      });
+    },
+    desactivar(){
+      let me = this;
+      axios.put('categoria/deactivate',{'_id':this.adId})
+                    .then(function(response){
+                       me.adModal=0;
+                       me.adAccion=0;
+                       me.adNombre= '';
+                       me.adI='';
+                       me.listar();
+                    })
+                    .catch(function(error){
+                        console.log(error);
+      });
     },
 
     close () {
