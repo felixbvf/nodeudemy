@@ -36,6 +36,9 @@
                                 <v-flex xs12 sm12 md12>
                                     <v-text-field v-model="descripcion" label="Descripción"></v-text-field>
                                 </v-flex>
+                                 <v-flex xs12 sm12 md12 v-show="valida">
+                                    <div class="red--text" v-for="v in validaMensage" :key="v" v-text="v"></div>
+                                </v-flex>
                     </v-layout>
                 </v-container>
               </v-card-text>
@@ -51,7 +54,6 @@
       </template>
 
       <template v-slot:item.action="{ item }">
-       
         <v-icon
           small
           class="mr-2"
@@ -89,7 +91,9 @@ data: () => ({
     editedIndex: -1,  //si es 1 significar que se va editar 
     _id: '',
     nombre: '',
-    descripcion: ''
+    descripcion: '',
+    valida: 0,
+    validaMensage: []
 
   }),
 
@@ -123,16 +127,32 @@ data: () => ({
                 this._id='';
                 this.nombre='';
                 this.descripcion='';
-                /*this.valida=0;
+                this.valida=0;
                 this.validaMensaje=[];
-                this.editedIndex=-1;*/
+                this.editedIndex=-1;
+    },
+    validar() {
+      this.valida=0;
+      this.validaMensage=[];
+      if(this.nombre.length <1 || this.nombre.length >50){
+        this.validaMensage.push('El nombre debe tener 1-50 caracteres');
+      }
+      if(this.descripcion.length > 255){
+        this.validaMensage.push('La descripcion no debe tener mas 255 caracteres');
+      }
+      if(this.validaMensage.length)
+      {
+        this.valida=1;
+      }
+      return this.valida;
     },
     guardar(){
       let me=this;
-     /* if (this.validar()){
-                    return;
-      }*/
-      if (this.editedIndex >-1){
+      if (this.validar()){
+        return;
+      }
+      console.log('ggggg' + this.editedIndex);
+      if (this.editedIndex > -1){
                     //Código para editar
                     axios.put('categoria/update',{'_id':this._id,'nombre':this.nombre,'descripcion':this.descripcion})
                     .then(function(response){
@@ -158,10 +178,17 @@ data: () => ({
     },
 
     editItem (item) {
+      console.log(item.nombre);
+      this._id = item._id;
+      this.nombre = item.nombre;
+      this.descripcion= item.descripcion;
+      this.dialog = true;
+      this.editedIndex = 1;
+      
       //console.log('hhhhh -----' + item._id);
-      this.editedIndex = this.items.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      /*this.editedIndex = this.items.indexOf(item)
+      this.editedItem = Object.assign({}, item)*/
+      
     },
 
     deleteItem (item) {
