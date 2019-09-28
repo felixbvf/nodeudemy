@@ -65,13 +65,13 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="activarDesactivarCerrar()" color="green darken-1" flat="flat">
+                <v-btn @click="activarDesactivarCerrar()" color="green darken-1" >
                   cancelar
                 </v-btn>
-                <v-btn v-if="adAccion==1" @click="activar()" color="orange darken-4" flat="flat">
+                <v-btn v-if="adAccion==1" @click="activar()" color="orange darken-4" >
                     Activar
                 </v-btn>
-                 <v-btn v-if="adAccion==2" @click="desactivar()" color="orange darken-4" flat="flat">
+                 <v-btn v-if="adAccion==2" @click="desactivar()" color="orange darken-4" >
                     Desactivar
                 </v-btn>
               </v-card-actions>
